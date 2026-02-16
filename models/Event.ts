@@ -11,6 +11,11 @@ export interface IEvent {
   capacity: number;
   bookedSeats: number;
   price: number;
+  refundPolicy?: string;
+  location?: {
+    lat: number;
+    lng: number;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -26,7 +31,12 @@ const EventSchema = new Schema<IEvent>(
     date: { type: Date, required: true },
     capacity: { type: Number, required: true, default: 100 },
     bookedSeats: { type: Number, default: 0 },
-    price: { type: Number, required: true, default: 0 }
+    price: { type: Number, required: true, default: 0 },
+    refundPolicy: { type: String, default: 'No refunds available for this event.' },
+    location: {
+      lat: { type: Number },
+      lng: { type: Number }
+    }
   },
   { timestamps: true }
 );

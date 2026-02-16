@@ -19,7 +19,12 @@ const AdminPage = () => {
     venue: '',
     date: '',
     capacity: 100,
-    price: 0
+    price: 0,
+    refundPolicy: 'Full refund available up to 7 days before the event. 50% refund up to 3 days before. No refunds within 3 days of the event.',
+    location: {
+      lat: 0,
+      lng: 0
+    }
   });
 
   useEffect(() => {
@@ -261,6 +266,22 @@ const AdminPage = () => {
             onChange={(e) => setFormData({ ...formData, image: e.target.value })}
           />
           <p className="form-helper-text">Path to event image</p>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="refundPolicy" className="form-label">
+            Refund Policy
+          </label>
+          <textarea
+            id="refundPolicy"
+            rows={3}
+            placeholder="Describe your refund and cancellation policy..."
+            className="form-textarea"
+            style={{ color: '#000000', backgroundColor: '#ffffff' }}
+            value={formData.refundPolicy}
+            onChange={(e) => setFormData({ ...formData, refundPolicy: e.target.value })}
+          />
+          <p className="form-helper-text">Cancellation and refund terms for attendees</p>
         </div>
 
         <div className="pt-4">

@@ -34,9 +34,9 @@ const EventDetailPage = async ({ params }: Props) => {
     const availableSeats = event.capacity - event.bookedSeats;
 
     return (
-      <section className="max-w-7xl mx-auto px-4 py-10">
-        <div className="grid lg:grid-cols-2 gap-10">
-          <div className="space-y-4">
+      <section className="w-full max-w-7xl mx-auto px-4 py-10">
+        <div className="w-full grid lg:grid-cols-2 gap-10 items-start">
+          <div className="w-full space-y-4">
             <div className="relative overflow-hidden rounded-xl shadow-lg">
               <Image
                 src={event.image}
@@ -49,7 +49,7 @@ const EventDetailPage = async ({ params }: Props) => {
             </div>
           </div>
 
-          <div className="space-y-6 max-h-[calc(100vh-120px)] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
+          <div className="w-full space-y-6 max-h-[calc(100vh-120px)] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <div>
               <h1 className="text-4xl font-bold mb-4 text-center text-white-900">{ event.title }</h1>
 
@@ -114,6 +114,11 @@ const EventDetailPage = async ({ params }: Props) => {
             <div className="bg-white rounded-xl p-6 border border-gray-200">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">About this event</h2>
               <p className="text-gray-700 leading-relaxed text-base">{event.description}</p>
+            </div>
+
+            <div className="bg-amber-50 rounded-xl p-6 border border-amber-200">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Refund Policy</h2>
+              <p className="text-gray-700 leading-relaxed text-base">{event.refundPolicy || 'No refunds available for this event.'}</p>
             </div>
 
             {availableSeats > 0 ? (

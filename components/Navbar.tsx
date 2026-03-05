@@ -28,8 +28,8 @@ const Navbar = () => {
                                     <Link href="/admin/create">Create Event</Link>
                                 </>
                             )}
-                            <span className="text-gray-300">|</span>
-                            <span className="text-sm text-gray-400">{user.name}</span>
+                            <span>|</span>
+                            <span>{user.name}</span>
                             <button 
                                 onClick={logout}
                                 className="text-red-400 hover:text-red-300 transition"

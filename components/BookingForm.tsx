@@ -3,8 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PaymentForm from './PaymentForm';
+<<<<<<< HEAD
 import { useAppDispatch } from '@/store/hooks';
 import { payLaterRequest } from '@/store/slices/bookingsSlice';
+=======
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
 
 interface Props {
   eventId: string;
@@ -14,7 +17,10 @@ interface Props {
 
 const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
   const router = useRouter();
+<<<<<<< HEAD
   const dispatch = useAppDispatch();
+=======
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
   const [formData, setFormData] = useState({
     userName: '',
     userEmail: '',
@@ -74,6 +80,7 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
     setError('Payment cancelled. Your booking is pending payment.');
   };
 
+<<<<<<< HEAD
   const handlePayLater = async () => {
     try {
       dispatch(payLaterRequest({ bookingId }));
@@ -92,6 +99,13 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
       <div className="form-success">
         <h3 className="form-success-title">✓ Ticket Confirmed!</h3>
         <p className="form-success-text">Your ticket is confirmed. Please complete payment to finalize your booking.</p>
+=======
+  if (success) {
+    return (
+      <div className="form-success">
+        <h3 className="form-success-title">✓ Booking Confirmed & Payment Successful!</h3>
+        <p className="form-success-text">Check your email for confirmation details.</p>
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
       </div>
     );
   }
@@ -183,7 +197,10 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
           amount={totalAmount}
           onSuccess={handlePaymentSuccess}
           onCancel={handlePaymentCancel}
+<<<<<<< HEAD
           onPayLater={handlePayLater}
+=======
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
         />
       )}
     </>

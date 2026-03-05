@@ -7,10 +7,16 @@ interface Props {
   amount: number;
   onSuccess: () => void;
   onCancel: () => void;
+<<<<<<< HEAD
   onPayLater?: () => void;
 }
 
 const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Props) => {
+=======
+}
+
+const PaymentForm = ({ bookingId, amount, onSuccess, onCancel }: Props) => {
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
   const [formData, setFormData] = useState({
     cardNumber: '',
     cardName: '',
@@ -52,7 +58,11 @@ const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Pro
     }
   };
 
+<<<<<<< HEAD
   const formatCardNumber = (value: string): string => {
+=======
+  const formatCardNumber = (value: string) => {
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     const matches = v.match(/\d{4,16}/g);
     const match = (matches && matches[0]) || '';
@@ -172,6 +182,7 @@ const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Pro
               Cancel
             </button>
             <button
+<<<<<<< HEAD
               type="button"
               onClick={onPayLater}
               disabled={loading}
@@ -180,6 +191,8 @@ const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Pro
               Pay Later
             </button>
             <button
+=======
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
               type="submit"
               disabled={loading}
               className="flex-1 form-button"

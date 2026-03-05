@@ -41,11 +41,15 @@ export async function POST(request: NextRequest) {
     
     const booking = await Booking.create({
       ...body,
+<<<<<<< HEAD
       eventName: event.title,
       eventDate: event.date,
       eventVenue: event.venue,
       paymentAmount,
       status: 'pending',
+=======
+      paymentAmount,
+>>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
       paymentStatus: 'pending'
     });
     

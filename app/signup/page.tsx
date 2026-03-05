@@ -63,8 +63,8 @@ const SignupPage = () => {
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h1>
-          <p className="text-gray-600">Join DevEvent to book amazing events</p>
+          <h1 className="text-4xl font-bold text-white-900 mb-2">Create Account</h1>
+          <p className="text-gray-500">Join DevEvent to book amazing events</p>
         </div>
 
         {error && (

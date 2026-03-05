@@ -13,7 +13,7 @@ const AdminPage = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    image: '/images/event1.png',
+    image: '',
     slug: '',
     time: '',
     venue: '',
@@ -26,6 +26,7 @@ const AdminPage = () => {
       lng: 0
     }
   });
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
     // Check if user is admin
@@ -70,6 +71,20 @@ const AdminPage = () => {
 
   const handleTitleChange = (title: string) => {
     setFormData({ ...formData, title, slug: generateSlug(title) });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Create a preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setImagePreview(base64String);
+        setFormData({ ...formData, image: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   if (authLoading) {
@@ -256,16 +271,24 @@ const AdminPage = () => {
             Event Image
           </label>
           <input
-            type="text"
+            type="file"
             id="image"
             required
-            placeholder="/images/event1.png"
+            accept="image/*"
             className="form-input"
-            style={{ color: '#000000', backgroundColor: '#ffffff' }}
-            value={formData.image}
-            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+            onChange={handleImageChange}
           />
-          <p className="form-helper-text">Path to event image</p>
+          <p className="form-helper-text">Select an image from your system (JPG, PNG, etc.)</p>
+          {imagePreview && (
+            <div className="mt-4">
+              <p className="text-sm text-gray-600 mb-2">Image Preview:</p>
+              <img 
+                src={imagePreview} 
+                alt="Event preview" 
+                className="max-w-xs h-auto rounded-lg border border-gray-300"
+              />
+            </div>
+          )}
         </div>
 
         <div className="form-group">

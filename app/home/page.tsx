@@ -72,7 +72,6 @@ const HomePage = () => {
                   title={event.title}
                   description={event.description}
                   image={event.image}
-                  slug={event.slug}
                   time={event.time}
                   venue={event.venue}
                   date={new Date(event.date).toLocaleDateString('en-US', { 

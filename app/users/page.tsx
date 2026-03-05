@@ -102,7 +102,7 @@ const UserBookingsPage = () => {
 
       {bookings.length > 0 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-gray-300">
             Found {bookings.length} booking{bookings.length !== 1 ? 's' : ''}
           </h2>
 

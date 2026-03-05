@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongoose';
 import User from '@/models/User';
+import bcrypt from 'bcrypt'
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,7 +19,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Check password (in production, use bcrypt.compare)
-    if (user.password !== password) {
+    const decodedpassword = await bcrypt.compare(password, user.password)
+    if (!decodedpassword) {
       return NextResponse.json(
         { success: false, error: 'Invalid email or password' },
         { status: 401 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongoose';
 import User from '@/models/User';
 import { isAdminEmail } from '@/lib/config';
+import bcrypt from 'bcrypt';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,11 +22,13 @@ export async function POST(request: NextRequest) {
     // Automatically determine role based on email
     const role = isAdminEmail(email) ? 'admin' : 'user';
 
-    // Create new user (in production, hash the password!)
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
       name,
       email,
-      password, // In production, use bcrypt to hash this
+      password: hashedPassword,
       role
     });
 

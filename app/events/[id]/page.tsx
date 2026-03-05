@@ -4,6 +4,9 @@ import Event from "@/models/Event";
 import BookingForm from "@/components/BookingForm";
 import { notFound } from "next/navigation";
 import mongoose from "mongoose";
+import { Calendar, Clock } from "lucide-react";
+import { MdLocationPin } from "react-icons/md";
+import { IoIosPeople } from 'react-icons/io'
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -63,7 +66,8 @@ const EventDetailPage = async ({ params }: Props) => {
 
               <div className="flex items-start gap-4">
                 <div className="bg-white p-2 rounded-lg">
-                  <Image src="/icons/calendar.svg" alt="date" width={24} height={24} />
+                  {/* <Image src="/icons/calendar.svg" alt="date" width={24} height={24} /> */}
+                  <Calendar />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Date</p>
@@ -80,7 +84,8 @@ const EventDetailPage = async ({ params }: Props) => {
 
               <div className="flex items-start gap-4">
                 <div className="bg-white p-2 rounded-lg">
-                  <Image src="/icons/clock.svg" alt="time" width={24} height={24} />
+                  {/* <Image src="/icons/clock.svg" alt="time" width={24} height={24} /> */}
+                  <Clock />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Time</p>
@@ -90,7 +95,8 @@ const EventDetailPage = async ({ params }: Props) => {
 
               <div className="flex items-start gap-4">
                 <div className="bg-white p-2 rounded-lg">
-                  <Image src="/icons/pin.svg" alt="venue" width={24} height={24} />
+                  {/* <Image src="/icons/pin.svg" alt="venue" width={24} height={24} /> */}
+                  <MdLocationPin />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Venue</p>
@@ -100,7 +106,8 @@ const EventDetailPage = async ({ params }: Props) => {
 
               <div className="flex items-start gap-4">
                 <div className="bg-white p-2 rounded-lg">
-                  <Image src="/icons/audience.svg" alt="capacity" width={24} height={24} />
+                  {/* <Image src="/icons/audience.svg" alt="capacity" width={24} height={24} /> */}
+                  < IoIosPeople />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Capacity</p>

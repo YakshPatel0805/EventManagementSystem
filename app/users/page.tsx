@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MdLocationPin } from 'react-icons/md';
+import { Clock, Calendar} from 'lucide-react'
 
 interface Booking {
   _id: string;
@@ -148,7 +150,8 @@ const UserBookingsPage = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                          <Image src="/icons/calendar.svg" alt="date" width={18} height={18} />
+                          {/* <Image src="/icons/calendar.svg" alt="date" width={18} height={18} /> */}
+                          < Calendar/>
                           <p className="text-gray-700">
                             {new Date(booking.eventId.date).toLocaleDateString('en-US', {
                               year: 'numeric',
@@ -159,12 +162,14 @@ const UserBookingsPage = () => {
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <Image src="/icons/clock.svg" alt="time" width={18} height={18} />
+                          {/* <Image src="/icons/clock.svg" alt="time" width={18} height={18} /> */}
+                          <Clock />
                           <p className="text-gray-700">{booking.eventId.time}</p>
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <Image src="/icons/pin.svg" alt="venue" width={18} height={18} />
+                          {/* <Image src="/icons/pin.svg" alt="venue" width={18} height={18} /> */}
+                          <MdLocationPin />
                           <p className="text-gray-700">{booking.eventId.venue}</p>
                         </div>
                       </div>

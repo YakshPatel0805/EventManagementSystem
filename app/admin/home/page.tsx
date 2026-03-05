@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Calendar, Clock } from 'lucide-react';
+import { IoIosPeople } from 'react-icons/io'
+import { MdLocationPin } from 'react-icons/md'
 
 interface Event {
   _id: string;
@@ -159,7 +162,8 @@ const AdminHomePage = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                       <div className="flex items-center gap-2">
-                        <Image src="/icons/calendar.svg" alt="date" width={16} height={16} />
+                        {/* <Image src="/icons/calendar.svg" alt="date" width={16} height={16} /> */}
+                        <Calendar />
                         <span className="text-gray-700">
                           {new Date(event.date).toLocaleDateString('en-US', {
                             month: 'short',
@@ -170,17 +174,20 @@ const AdminHomePage = () => {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Image src="/icons/clock.svg" alt="time" width={16} height={16} />
+                        {/* <Image src="/icons/clock.svg" alt="time" width={16} height={16} /> */}
+                        <Clock />
                         <span className="text-gray-700">{event.time}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Image src="/icons/pin.svg" alt="venue" width={16} height={16} />
+                        {/* <Image src="/icons/pin.svg" alt="venue" width={16} height={16} /> */}
+                        <MdLocationPin />
                         <span className="text-gray-700">{event.venue}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Image src="/icons/audience.svg" alt="capacity" width={16} height={16} />
+                        {/* <Image src="/icons/audience.svg" alt="capacity" width={16} height={16} /> */}
+                        <IoIosPeople />
                         <span className="text-gray-700">
                           {event.bookedSeats}/{event.capacity} booked
                         </span>

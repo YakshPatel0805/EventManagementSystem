@@ -22,7 +22,6 @@ export async function POST(request: NextRequest) {
     const paymentSuccess = await simulatePayment(cardNumber);
 
     if (paymentSuccess) {
-      // Update booking with payment details
       booking.paymentStatus = 'completed';
       booking.paymentMethod = paymentMethod;
       booking.transactionId = generateTransactionId();
@@ -37,7 +36,6 @@ export async function POST(request: NextRequest) {
         }
       });
     } else {
-      // Payment failed
       booking.paymentStatus = 'failed';
       await booking.save();
 
@@ -54,7 +52,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Simulate payment processing (replace with real payment gateway)
 async function simulatePayment(cardNumber: string): Promise<boolean> {
   // Simulate processing delay
   await new Promise(resolve => setTimeout(resolve, 2000));

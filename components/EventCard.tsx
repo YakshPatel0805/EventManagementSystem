@@ -6,7 +6,6 @@ interface Props {
     title: string;
     description: string;
     image: string;
-    slug: string;
     time: string;
     venue: string;
     date: string;
@@ -14,7 +13,7 @@ interface Props {
     bookedSeats: number;
 }
 
-const EventCard = ({ id, title, description, image, slug, venue, time, date, capacity, bookedSeats }: Props) => {
+const EventCard = ({ id, title, description, image, venue, time, date, capacity, bookedSeats }: Props) => {
     const availableSeats = capacity - bookedSeats;
     
     return (

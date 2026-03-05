@@ -3,10 +3,7 @@ import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import LightRays from '@/components/LightRays';
 import Navbar from "@/components/Navbar";
-<<<<<<< HEAD
 import { ReduxProvider } from "@/components/ReduxProvider";
-=======
->>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
 import { AuthProvider } from "@/contexts/AuthContext";
 
 
@@ -36,7 +33,6 @@ export default function RootLayout({
             <body
                 className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
             >
-<<<<<<< HEAD
                 <ReduxProvider>
                     <AuthProvider>
                         <Navbar /> 
@@ -58,7 +54,6 @@ export default function RootLayout({
                         </main>
                     </AuthProvider>
                 </ReduxProvider>
-=======
                 <AuthProvider>
                     <Navbar /> 
                     <div className="absolute inset-0 top-0 z-[-1] min-h-screen">
@@ -78,7 +73,6 @@ export default function RootLayout({
                         {children}
                     </main>
                 </AuthProvider>
->>>>>>> f2c311adb61bb038bcbbc830b850bcf64d60cb0d
             </body>
         </html>
     );

@@ -4,9 +4,7 @@ import Event from "@/models/Event";
 import BookingForm from "@/components/BookingForm";
 import { notFound } from "next/navigation";
 import mongoose from "mongoose";
-import { Calendar, Clock } from "lucide-react";
-import { MdLocationPin } from "react-icons/md";
-import { IoIosPeople } from 'react-icons/io'
+import { Clock, Calendar, MapPinned, Users } from 'lucide-react'
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -65,12 +63,11 @@ const EventDetailPage = async ({ params }: Props) => {
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Event Details</h3>
 
               <div className="flex items-start gap-4">
-                <div className="bg-white p-2 rounded-lg">
-                  {/* <Image src="/icons/calendar.svg" alt="date" width={24} height={24} /> */}
+                <div className="bg-black p-2 rounded-lg">
                   <Calendar />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Date</p>
+                  <p className="text-sm text-gray-700 font-medium">Date</p>
                   <p className="text-lg font-semibold text-gray-900">
                     {new Date(event.date).toLocaleDateString('en-US', {
                       weekday: 'long',
@@ -83,34 +80,31 @@ const EventDetailPage = async ({ params }: Props) => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-white p-2 rounded-lg">
-                  {/* <Image src="/icons/clock.svg" alt="time" width={24} height={24} /> */}
+                <div className="bg-black p-2 rounded-lg">
                   <Clock />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Time</p>
+                  <p className="text-sm text-gray-700 font-medium">Time</p>
                   <p className="text-lg font-semibold text-gray-900">{event.time}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-white p-2 rounded-lg">
-                  {/* <Image src="/icons/pin.svg" alt="venue" width={24} height={24} /> */}
-                  <MdLocationPin />
+                <div className="bg-black p-2 rounded-lg">
+                  <MapPinned />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Venue</p>
+                  <p className="text-sm text-gray-700 font-medium">Venue</p>
                   <p className="text-lg font-semibold text-gray-900">{event.venue}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-white p-2 rounded-lg">
-                  {/* <Image src="/icons/audience.svg" alt="capacity" width={24} height={24} /> */}
-                  < IoIosPeople />
+                <div className="bg-black p-2 rounded-lg">
+                  < Users />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 font-medium">Capacity</p>
+                  <p className="text-sm text-gray-700 font-medium">Capacity</p>
                   <p className="text-lg font-semibold text-gray-900">
                     {event.capacity} total seats ({event.bookedSeats} booked)
                   </p>

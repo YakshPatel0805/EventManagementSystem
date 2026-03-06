@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { IoIosPeople } from 'react-icons/io'
-import { FcManager } from "react-icons/fc";
-import { Calendar } from 'lucide-react'
+import { Calendar, Users, ShieldUser } from 'lucide-react'
 
 const LandingPage = () => {
   const router = useRouter();
@@ -102,7 +100,6 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 hover:border-blue-500 transition">
               <div className="bg-blue-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                {/* <Image src="/icons/calendar.svg" alt="Events" width={32} height={32} /> */}
                 < Calendar />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-gray-100">Discover Events</h3>
@@ -113,8 +110,7 @@ const LandingPage = () => {
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 hover:border-purple-500 transition">
               <div className="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                {/* <Image src="/icons/audience.svg" alt="Booking" width={32} height={32} /> */}
-                < IoIosPeople />
+                < Users />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-gray-100">Easy Booking</h3>
               <p className="text-gray-400">
@@ -124,8 +120,7 @@ const LandingPage = () => {
 
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 hover:border-pink-500 transition">
               <div className="bg-pink-600 w-16 h-16 rounded-lg flex items-center justify-center mb-6">
-                {/* <Image src="/icons/mode.svg" alt="Management" width={32} height={32} /> */}
-                <FcManager />
+                <ShieldUser />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-gray-100">Manage Bookings</h3>
               <p className="text-gray-400">

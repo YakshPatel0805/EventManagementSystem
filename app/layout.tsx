@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ReduxProvider } from "@/components/ReduxProvider";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 
 
@@ -34,17 +35,19 @@ export default function RootLayout({
             >
                 <ReduxProvider>
                     <AuthProvider>
-                        {/* Blurred Background Image */}
-                        <div 
-                            className="blurred-bg" 
-                            style={{ backgroundImage: 'url(/images/DeveloperEvents.png)' }}
-                        />
-                        <div className="blurred-bg-overlay" />
-                        
-                        <Navbar /> 
-                        <main>
-                            {children}
-                        </main>
+                        <ErrorBoundary>
+                            {/* Blurred Background Image */}
+                            <div 
+                                className="blurred-bg" 
+                                style={{ backgroundImage: 'url(/images/DeveloperEvents.png)' }}
+                            />
+                            <div className="blurred-bg-overlay" />
+                            
+                            <Navbar /> 
+                            <main>
+                                {children}
+                            </main>
+                        </ErrorBoundary>
                     </AuthProvider>
                 </ReduxProvider>
             </body>

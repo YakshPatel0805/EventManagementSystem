@@ -92,7 +92,7 @@ const AdminHomePage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="mx-auto w-full px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-4xl font-bold text-white-900 mb-2">Admin Dashboard</h1>

@@ -16,7 +16,7 @@ const LandingPage = () => {
     if (userData) {
       const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
-      
+
       // Redirect logged-in users to their respective pages
       if (parsedUser.role === 'admin') {
         router.push('/admin/home');
@@ -38,22 +38,22 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-4">
+      <section className="relative z-0 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <div className="mb-8">
-            <Image 
-              src="/icons/logo.png" 
-              alt="DevEvent Logo" 
-              width={120} 
-              height={120}
+            <Image
+              src="/images/logo.png"
+              alt="DevEvent Logo"
+              width={200}
+              height={200}
               className="mx-auto mb-6"
             />
           </div>
-          
+
           <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Welcome to DevEvent
           </h1>
-          
+
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
             The ultimate platform for developers to discover, book, and manage amazing tech events
           </p>

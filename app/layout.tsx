@@ -35,6 +35,13 @@ export default function RootLayout({
             >
                 <ReduxProvider>
                     <AuthProvider>
+                        {/* Blurred Background Image */}
+                        <div 
+                            className="blurred-bg" 
+                            style={{ backgroundImage: 'url(/images/DeveloperEvents.png)' }}
+                        />
+                        <div className="blurred-bg-overlay" />
+                        
                         <Navbar /> 
                         <div className="absolute inset-0 top-0 z-[-1] min-h-screen">
                             <LightRays

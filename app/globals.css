@@ -102,6 +102,14 @@
   @apply bg-[#12121280]/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl border-b border-border-dark;
 }
 
+@utility blurred-bg {
+  @apply fixed inset-0 bg-cover bg-center bg-no-repeat blur-md z-[-2];
+}
+
+@utility blurred-bg-overlay {
+  @apply fixed inset-0 bg-black/40 z-[-1];
+}
+
 @utility card-shadow {
   box-shadow: 0px 4px 40px 0px #00000066;
 }

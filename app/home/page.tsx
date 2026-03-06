@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -68,13 +67,11 @@ const HomePage = () => {
 
   return (
     <section>
-      <h1 className="text-center">The Place for every Developer</h1>
-      <p className="text-center mt-5">Connect with developers, share knowledge, and grow together.</p>
-
-      <ExploreBtn />
+      <h1 className="text-center">The Place for every Individuals</h1>
+      <p className="text-center mt-5">Connect with each-other, share knowledge, and grow together.</p>
 
       <div className="mt-20 space-y-7">
-        <h3>Featured Events</h3>
+        <h3>Events For Individuals</h3>
         {events.length === 0 ? (
           <p className="text-center text-gray-700">No events available at the moment.</p>
         ) : (

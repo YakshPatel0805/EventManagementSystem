@@ -51,11 +51,11 @@ const LandingPage = () => {
           </div>
 
           <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Welcome to DevEvent
+            Welcome to EventHub
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            The ultimate platform for developers to discover, book, and manage amazing tech events
+            The ultimate platform for individuals to discover, book, and participate into amazing events
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -94,7 +94,7 @@ const LandingPage = () => {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-100">
-            Why Choose DevEvent?
+            Why Choose EventHub?
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -104,7 +104,7 @@ const LandingPage = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4 text-gray-100">Discover Events</h3>
               <p className="text-gray-400">
-                Browse through a curated list of tech conferences, workshops, and meetups tailored for developers.
+                Browse through a curated list of tech conferences, workshops, and meetups tailored for individuals.
               </p>
             </div>
 
@@ -152,7 +152,7 @@ const LandingPage = () => {
                 2
               </div>
               <h3 className="text-xl font-bold mb-2 text-gray-100">Browse Events</h3>
-              <p className="text-gray-400">Explore upcoming tech events</p>
+              <p className="text-gray-400">Explore upcoming events</p>
             </div>
 
             <div className="text-center">
@@ -201,7 +201,7 @@ const LandingPage = () => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join thousands of developers discovering and attending amazing tech events
+            Join thousands of developers discovering and attending amazing events
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -224,7 +224,7 @@ const LandingPage = () => {
       <footer className="py-8 px-4 border-t border-gray-800">
         <div className="max-w-6xl mx-auto text-center text-gray-400">
           <p>&copy; 2026 DevEvent. All rights reserved.</p>
-          <p className="mt-2 text-sm">Connecting developers through amazing events</p>
+          <p className="mt-2 text-sm">Connecting individuals through the events</p>
         </div>
       </footer>
     </div>

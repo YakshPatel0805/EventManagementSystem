@@ -45,16 +45,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     // Force full page reload to update navbar
     if (userData.role === 'admin') {
-      window.location.href = '/admin/home';
+      router.push('/admin/home');
+      // window.location.href = '/admin/home';
     } else {
-      window.location.href = '/home';
+      router.push('/home');
+      // window.location.href = '/home';
     }
   };
 
   const logout = () => {
     localStorage.removeItem('user');
     setUser(null);
-    window.location.href = '/';
+    router.push('/')
+    // window.location.href = '/';
   };
 
   return (

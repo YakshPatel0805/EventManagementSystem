@@ -19,6 +19,9 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
+// Index for login queries
+UserSchema.index({ email: 1 });
+
 const User = models.User || model<IUser>('User', UserSchema);
 
 export default User;

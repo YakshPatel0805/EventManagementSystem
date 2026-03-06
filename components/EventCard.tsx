@@ -12,9 +12,10 @@ interface Props {
     date: string;
     capacity: number;
     bookedSeats: number;
+    pendingSeats?: number;
 }
 
-const EventCard = ({ id, title, description, image, venue, time, date, capacity, bookedSeats }: Props) => {
+const EventCard = ({ id, title, description, image, venue, time, date, capacity, bookedSeats, pendingSeats = 0 }: Props) => {
     const availableSeats = capacity - bookedSeats;
 
     return (
@@ -39,7 +40,9 @@ const EventCard = ({ id, title, description, image, venue, time, date, capacity,
             </div>
             <div className="flex flex-row gap-2 mt-2">
                 < Users />
-                <p className="text-sm">{availableSeats} seats available</p>
+                <p className="text-sm">
+                    {availableSeats} seats available{pendingSeats > 0 ? ` and ${pendingSeats} on hold` : ''}
+                </p>
             </div>
         </Link>
     )

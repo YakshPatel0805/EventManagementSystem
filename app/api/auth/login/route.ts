@@ -13,12 +13,11 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { success: false, error: 'Invalid email or password' },
+        { success: false, error: 'User Not Found, Please Sign Up First...' },
         { status: 401 }
       );
     }
 
-    // Check password (in production, use bcrypt.compare)
     const decodedpassword = await bcrypt.compare(password, user.password)
     if (!decodedpassword) {
       return NextResponse.json(

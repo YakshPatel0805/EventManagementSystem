@@ -62,7 +62,7 @@ const UserBookingsPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">My Bookings</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center h-11">My Bookings</h1>
 
       <div className="max-w-xl mx-auto mb-12">
         <form onSubmit={handleSearch} className="form-container space-y-4">
@@ -109,7 +109,19 @@ const UserBookingsPage = () => {
           </h2>
 
           <div className="grid gap-6">
-            {bookings.map((booking) => (
+            {bookings.map((booking) => {
+              if (!booking.eventId) {
+                return (
+                  <div key={booking._id} className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden p-6">
+                    <div className="text-center py-8">
+                      <p className="text-gray-600 font-semibold">Event no longer available</p>
+                      <p className="text-gray-500 text-sm mt-2">This event has been removed from the system.</p>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
               <div key={booking._id} className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition">
                 <div className="grid md:grid-cols-3 gap-6 p-6">
                   <div className="md:col-span-1">
@@ -214,7 +226,8 @@ const UserBookingsPage = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

@@ -15,11 +15,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Confirm ticket but keep payment status as pending
+    // Keep booking as pending since payment is pending
     const booking = await Booking.findByIdAndUpdate(
       bookingId,
       {
-        status: 'confirmed',
+        status: 'pending',
         paymentStatus: 'pending'
       },
       { new: true }

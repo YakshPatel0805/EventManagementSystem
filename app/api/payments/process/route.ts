@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
 
     if (paymentSuccess) {
       booking.paymentStatus = 'completed';
+      booking.status = 'confirmed';
       booking.paymentMethod = paymentMethod;
       booking.transactionId = generateTransactionId();
       await booking.save();
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
         data: {
           bookingId: booking._id,
           paymentStatus: booking.paymentStatus,
+          status: booking.status,
           transactionId: booking.transactionId
         }
       });

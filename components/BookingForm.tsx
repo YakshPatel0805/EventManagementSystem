@@ -23,6 +23,7 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [successType, setSuccessType] = useState<'payment' | 'paylater'>('payment');
   const [showPayment, setShowPayment] = useState(false);
   const [bookingId, setBookingId] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
@@ -63,6 +64,7 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
 
   const handlePaymentSuccess = () => {
     setShowPayment(false);
+    setSuccessType('payment');
     setSuccess(true);
     setTimeout(() => {
       router.refresh();
@@ -78,6 +80,7 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
     try {
       dispatch(payLaterRequest({ bookingId }));
       setShowPayment(false);
+      setSuccessType('paylater');
       setSuccess(true);
       setTimeout(() => {
         router.refresh();
@@ -90,8 +93,14 @@ const BookingForm = ({ eventId, availableSeats, eventPrice }: Props) => {
   if (success) {
     return (
       <div className="form-success">
-        <h3 className="form-success-title">✓ Ticket Confirmed!</h3>
-        <p className="form-success-text">Your ticket is confirmed. Please complete payment to finalize your booking.</p>
+        <h3 className="form-success-title">
+          {successType === 'payment' ? '✓ Payment Successful!' : '⏳ Booking Pending'}
+        </h3>
+        <p className="form-success-text">
+          {successType === 'payment' 
+            ? 'Your ticket is confirmed. Thank you for booking with us!'
+            : 'Your booking is pending payment. Please complete payment to confirm your ticket.'}
+        </p>
       </div>
     );
   }

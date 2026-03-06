@@ -16,6 +16,7 @@ interface Event {
   date: string;
   capacity: number;
   bookedSeats: number;
+  pendingSeats?: number;
 }
 
 const HomePage = () => {
@@ -31,7 +32,20 @@ const HomePage = () => {
           const response = await fetch('/api/events');
           const data = await response.json();
           if (data.success) {
-            setEvents(data.data);
+            // Fetch pending bookings for each event
+            const eventsWithPending = await Promise.all(
+              data.data.map(async (event: Event) => {
+                try {
+                  const pendingRes = await fetch(`/api/bookings?eventId=${event._id}&status=pending`);
+                  const pendingData = await pendingRes.json();
+                  const pendingSeats = pendingData.data?.reduce((total: number, booking: any) => total + booking.numberOfSeats, 0) || 0;
+                  return { ...event, pendingSeats };
+                } catch (err) {
+                  return event;
+                }
+              })
+            );
+            setEvents(eventsWithPending);
           }
         } catch (error) {
           console.error('Failed to fetch events:', error);
@@ -62,7 +76,7 @@ const HomePage = () => {
       <div className="mt-20 space-y-7">
         <h3>Featured Events</h3>
         {events.length === 0 ? (
-          <p className="text-center text-gray-500">No events available at the moment.</p>
+          <p className="text-center text-gray-700">No events available at the moment.</p>
         ) : (
           <ul className="events">
             {events.map((event) => (
@@ -81,6 +95,7 @@ const HomePage = () => {
                   })}
                   capacity={event.capacity}
                   bookedSeats={event.bookedSeats}
+                  pendingSeats={event.pendingSeats}
                 />
               </li>
             ))}

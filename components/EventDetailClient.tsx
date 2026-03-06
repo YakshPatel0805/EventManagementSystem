@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import BookingForm from './BookingForm';
 import PendingBookings from './PendingBookings';
 import { Clock, Calendar, MapPinned, Users } from 'lucide-react';
@@ -60,9 +61,12 @@ const EventDetailClient = ({ event, pendingBookings, pendingSeats, availableSeat
       <div className="w-full grid lg:grid-cols-2 gap-10 items-start">
         <div className="w-full space-y-4">
           <div className="relative overflow-hidden rounded-xl shadow-lg">
-            <img
+            <Image
               src={eventImage}
               alt={event.title}
+              width={600}
+              height={400}
+              priority
               className="w-full h-auto object-cover rounded-xl"
             />
           </div>

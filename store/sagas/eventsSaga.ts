@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchEventsRequest,
@@ -20,13 +20,24 @@ interface CreateEventPayload {
   image?: string;
 }
 
-function* handleFetchEvents() {
+interface FetchEventsPayload {
+  limit?: number;
+  cursor?: string | null;
+}
+
+function* handleFetchEvents(action: PayloadAction<FetchEventsPayload>) {
   try {
-    const response: Response = yield call(fetch, '/api/events', {
+    const { limit = 10, cursor } = action.payload;
+    let url = `/api/events/with-pending?limit=${limit}`;
+    if (cursor) {
+      url += `&cursor=${cursor}`;
+    }
+
+    const response: Response = yield call(fetch, url, {
       method: 'GET',
     });
 
-    const data: { success: boolean; data?: Event[]; error?: string } = yield call(
+    const data: { success: boolean; data?: Event[]; pagination?: any; error?: string } = yield call(
       [response, 'json']
     );
 
@@ -34,7 +45,10 @@ function* handleFetchEvents() {
       throw new Error(data.error || 'Failed to fetch events');
     }
 
-    yield put(fetchEventsSuccess(data.data || []));
+    yield put(fetchEventsSuccess({ 
+      events: data.data || [],
+      pagination: data.pagination
+    }));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to fetch events';
     yield put(fetchEventsFailure(errorMessage));
@@ -65,6 +79,6 @@ function* handleCreateEvent(action: PayloadAction<CreateEventPayload>) {
 }
 
 export function* eventsSaga() {
-  yield takeEvery(fetchEventsRequest.type as any, handleFetchEvents);
-  yield takeEvery(createEventRequest.type as any, handleCreateEvent);
+  yield takeLatest(fetchEventsRequest.type as any, handleFetchEvents);
+  yield takeLatest(createEventRequest.type as any, handleCreateEvent);
 }

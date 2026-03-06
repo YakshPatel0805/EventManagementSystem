@@ -20,7 +20,14 @@ const EventCard = ({ id, title, description, image, venue, time, date, capacity,
 
     return (
         <Link href={`/events/${id}`} id="event-card">
-            <Image src={image} alt={title} width={410} height={300} className="poster" />
+            <Image 
+              src={image} 
+              alt={title} 
+              width={410} 
+              height={300} 
+              loading="lazy"
+              className="poster" 
+            />
 
             <div className="flex text-gray-100 flex-row gap-2">
                 < MapPinned />

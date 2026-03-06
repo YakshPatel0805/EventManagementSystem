@@ -40,7 +40,7 @@ const AdminHomePage = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('/api/events');
+      const response = await fetch('/api/events?limit=100');
       const data = await response.json();
       if (data.success) {
         setEvents(data.data);

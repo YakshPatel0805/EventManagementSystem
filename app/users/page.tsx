@@ -125,13 +125,20 @@ const UserBookingsPage = () => {
               <div key={booking._id} className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition">
                 <div className="grid md:grid-cols-3 gap-6 p-6">
                   <div className="md:col-span-1">
-                    <Image
-                      src={booking.eventId.image}
-                      alt={booking.eventId.title}
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full h-48 object-cover"
-                    />
+                    {booking.eventId.image ? (
+                      <Image
+                        src={booking.eventId.image}
+                        alt={booking.eventId.title}
+                        width={300}
+                        height={200}
+                        loading="lazy"
+                        className="rounded-lg w-full h-48 object-cover"
+                      />
+                    ) : (
+                      <div className="rounded-lg w-full h-48 bg-gray-300 flex items-center justify-center">
+                        <p className="text-gray-600">No image available</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="md:col-span-2 space-y-4">

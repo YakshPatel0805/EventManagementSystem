@@ -41,6 +41,15 @@ const EventSchema = new Schema<IEvent>(
   { timestamps: true }
 );
 
+// Index for slug lookups (already unique, but explicit for clarity)
+EventSchema.index({ slug: 1 });
+
+// Index for sorting events by date
+EventSchema.index({ date: 1 });
+
+// Compound index for finding available events by date and capacity
+EventSchema.index({ date: 1, capacity: 1 });
+
 const Event = models.Event || model<IEvent>('Event', EventSchema);
 
 export default Event;

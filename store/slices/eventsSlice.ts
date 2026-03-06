@@ -5,11 +5,19 @@ export interface Event {
   title: string;
   description: string;
   date: string;
+  time: string;
+  venue: string;
   location: string;
   capacity: number;
   bookedSeats: number;
   price: number;
   image?: string;
+  pendingSeats?: number;
+}
+
+interface PaginationInfo {
+  nextCursor: string | null;
+  hasMore: boolean;
 }
 
 interface EventsState {
@@ -17,6 +25,7 @@ interface EventsState {
   selectedEvent: Event | null;
   loading: boolean;
   error: string | null;
+  pagination: PaginationInfo;
 }
 
 const initialState: EventsState = {
@@ -24,23 +33,30 @@ const initialState: EventsState = {
   selectedEvent: null,
   loading: false,
   error: null,
+  pagination: { nextCursor: null, hasMore: false },
 };
 
 const eventsSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    fetchEventsRequest: (state) => {
+    fetchEventsRequest: (state, action: PayloadAction<{ limit?: number; cursor?: string | null }>) => {
       state.loading = true;
       state.error = null;
     },
-    fetchEventsSuccess: (state, action: PayloadAction<Event[]>) => {
+    fetchEventsSuccess: (state, action: PayloadAction<{ events: Event[]; pagination: PaginationInfo }>) => {
       state.loading = false;
-      state.events = action.payload;
+      state.events = action.payload.events;
+      state.pagination = action.payload.pagination;
     },
     fetchEventsFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    loadMoreEventsSuccess: (state, action: PayloadAction<{ events: Event[]; pagination: PaginationInfo }>) => {
+      state.loading = false;
+      state.events = [...state.events, ...action.payload.events];
+      state.pagination = action.payload.pagination;
     },
     createEventRequest: (state) => {
       state.loading = true;
@@ -67,6 +83,7 @@ export const {
   fetchEventsRequest,
   fetchEventsSuccess,
   fetchEventsFailure,
+  loadMoreEventsSuccess,
   createEventRequest,
   createEventSuccess,
   createEventFailure,

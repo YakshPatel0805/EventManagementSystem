@@ -43,21 +43,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
     
-    // Force full page reload to update navbar
+    // Navigate based on role - router.push() preserves Redux state
     if (userData.role === 'admin') {
       router.push('/admin/home');
-      // window.location.href = '/admin/home';
     } else {
       router.push('/home');
-      // window.location.href = '/home';
     }
   };
-
-  const logout = () => {
+ const logout = () => {
     localStorage.removeItem('user');
     setUser(null);
-    router.push('/')
-    // window.location.href = '/';
+    router.push('/');
   };
 
   return (

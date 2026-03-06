@@ -37,6 +37,18 @@ const BookingSchema = new Schema<IBooking>(
   { timestamps: true }
 );
 
+// Compound index for filtering by eventId and status
+BookingSchema.index({ eventId: 1, status: 1 });
+
+// Index for filtering by userEmail
+BookingSchema.index({ userEmail: 1 });
+
+// Index for sorting by createdAt
+BookingSchema.index({ createdAt: -1 });
+
+// Compound index for user bookings with status
+BookingSchema.index({ userEmail: 1, status: 1 });
+
 const Booking = models.Booking || model<IBooking>('Booking', BookingSchema);
 
 export default Booking;

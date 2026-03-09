@@ -1,5 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+
 import {
   fetchBookingsRequest,
   fetchBookingsSuccess,
@@ -10,7 +11,11 @@ import {
   payLaterRequest,
   payLaterSuccess,
   payLaterFailure,
+  cancelBookingRequest,
+  cancelBookingSuccess,
+  cancelBookingFailure,
   Booking,
+  CancelBookingResponse,
 } from '../slices/bookingsSlice';
 
 interface CreateBookingPayload {
@@ -23,15 +28,21 @@ interface PayLaterPayload {
   bookingId: string;
 }
 
+interface CancelBookingPayload {
+  bookingId: string;
+  reason?: string;
+}
+
+/* FETCH BOOKINGS */
+
 function* handleFetchBookings() {
   try {
     const response: Response = yield call(fetch, '/api/bookings', {
       method: 'GET',
     });
 
-    const data: { success: boolean; data?: Booking[]; error?: string } = yield call(
-      [response, 'json']
-    );
+    const data: { success: boolean; data?: Booking[]; error?: string } =
+      yield call([response, 'json']);
 
     if (!response.ok || !data.success) {
       throw new Error(data.error || 'Failed to fetch bookings');
@@ -39,12 +50,18 @@ function* handleFetchBookings() {
 
     yield put(fetchBookingsSuccess(data.data || []));
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch bookings';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Failed to fetch bookings';
+
     yield put(fetchBookingsFailure(errorMessage));
   }
 }
 
-function* handleCreateBooking(action: PayloadAction<CreateBookingPayload>) {
+/* CREATE BOOKING */
+
+function* handleCreateBooking(
+  action: PayloadAction<CreateBookingPayload>
+) {
   try {
     const response: Response = yield call(fetch, '/api/bookings', {
       method: 'POST',
@@ -52,9 +69,8 @@ function* handleCreateBooking(action: PayloadAction<CreateBookingPayload>) {
       body: JSON.stringify(action.payload),
     });
 
-    const data: { success: boolean; data?: Booking; error?: string } = yield call(
-      [response, 'json']
-    );
+    const data: { success: boolean; data?: Booking; error?: string } =
+      yield call([response, 'json']);
 
     if (!response.ok || !data.success) {
       throw new Error(data.error || 'Failed to create booking');
@@ -62,12 +78,18 @@ function* handleCreateBooking(action: PayloadAction<CreateBookingPayload>) {
 
     yield put(createBookingSuccess(data.data as Booking));
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to create booking';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Failed to create booking';
+
     yield put(createBookingFailure(errorMessage));
   }
 }
 
-function* handlePayLater(action: PayloadAction<PayLaterPayload>) {
+/* PAY LATER */
+
+function* handlePayLater(
+  action: PayloadAction<PayLaterPayload>
+) {
   try {
     const response: Response = yield call(fetch, '/api/bookings/pay-later', {
       method: 'POST',
@@ -75,9 +97,8 @@ function* handlePayLater(action: PayloadAction<PayLaterPayload>) {
       body: JSON.stringify(action.payload),
     });
 
-    const data: { success: boolean; data?: Booking; error?: string } = yield call(
-      [response, 'json']
-    );
+    const data: { success: boolean; data?: Booking; error?: string } =
+      yield call([response, 'json']);
 
     if (!response.ok || !data.success) {
       throw new Error(data.error || 'Failed to save booking');
@@ -85,13 +106,46 @@ function* handlePayLater(action: PayloadAction<PayLaterPayload>) {
 
     yield put(payLaterSuccess(data.data as Booking));
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to save booking';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Failed to save booking';
+
     yield put(payLaterFailure(errorMessage));
   }
 }
 
+/* CANCEL BOOKING */
+
+function* handleCancelBooking(
+  action: PayloadAction<CancelBookingPayload>
+) {
+  try {
+    const response: Response = yield call(fetch, '/api/bookings/cancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(action.payload),
+    });
+
+    const data: { success: boolean; data?: CancelBookingResponse; error?: string } =
+      yield call([response, 'json']);
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || 'Failed to cancel booking');
+    }
+
+    yield put(cancelBookingSuccess(data.data as CancelBookingResponse));
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Failed to cancel booking';
+
+    yield put(cancelBookingFailure(errorMessage));
+  }
+}
+
+/* ROOT SAGA */
+
 export function* bookingsSaga() {
-  yield takeEvery(fetchBookingsRequest.type as any, handleFetchBookings);
-  yield takeEvery(createBookingRequest.type as any, handleCreateBooking);
-  yield takeEvery(payLaterRequest.type as any, handlePayLater);
+  yield takeEvery(fetchBookingsRequest.type, handleFetchBookings);
+  yield takeEvery(createBookingRequest.type, handleCreateBooking);
+  yield takeEvery(payLaterRequest.type, handlePayLater);
+  yield takeEvery(cancelBookingRequest.type, handleCancelBooking);
 }

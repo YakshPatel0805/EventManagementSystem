@@ -116,3 +116,77 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    await connectDB();
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Booking ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const booking = await Booking.findByIdAndDelete(id);
+
+    if (!booking) {
+      return NextResponse.json(
+        { success: false, error: 'Booking not found' },
+        { status: 404 }
+      );
+    }
+
+    // Decrement bookedSeats in the associated event
+    await Event.findByIdAndUpdate(booking.eventId, {
+      $inc: { bookedSeats: -booking.numberOfSeats }
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Booking deleted successfully'
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete booking' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    await connectDB();
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get('id');
+    const body = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Booking ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const booking = await Booking.findByIdAndUpdate(id, body, { new: true });
+
+    if (!booking) {
+      return NextResponse.json(
+        { success: false, error: 'Booking not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: booking
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: 'Failed to update booking' },
+      { status: 500 }
+    );
+  }
+}

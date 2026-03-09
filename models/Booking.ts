@@ -14,6 +14,9 @@ export interface IBooking {
   paymentAmount: number;
   paymentMethod?: string;
   transactionId?: string;
+  refundAmount?: number;
+  cancellationReason?: string;
+  cancelledAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -32,7 +35,10 @@ const BookingSchema = new Schema<IBooking>(
     paymentStatus: { type: String, enum: ['pending', 'completed', 'failed', 'refunded'], default: 'pending' },
     paymentAmount: { type: Number, required: true },
     paymentMethod: { type: String },
-    transactionId: { type: String }
+    transactionId: { type: String },
+    refundAmount: { type: Number, default: 0 },
+    cancellationReason: { type: String },
+    cancelledAt: { type: Date }
   },
   { timestamps: true }
 );

@@ -152,15 +152,30 @@ const UserBookingsPage = () => {
 
                       {/* Status */}
                       <div className="flex gap-2 flex-wrap mb-4">
+                        {booking.status === "pending" &&(
+                        <div className="px-3 py-1 bg-yellow-100 text-yellow-900 rounded-full text-sm font-semibold">
+                          ! {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                        </div>
+                        )}
+
+                        {booking.status === "confirmed" &&(
                         <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
                           ✓ {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                         </div>
+                        )}
 
                         {booking.paymentStatus === "completed" && (
                           <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
                             💳 Payment Successful
                           </div>
                         )}
+
+                        {booking.paymentStatus === "pending" && (
+                          <div className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                            💳 Payment pending
+                          </div>
+                        )}
+
                       </div>
 
                       {/* Event Info */}

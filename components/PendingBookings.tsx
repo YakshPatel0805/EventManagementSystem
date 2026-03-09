@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import PaymentForm from './PaymentForm';
-import { Clock, Calendar, MapPinned, Users } from 'lucide-react';
+import { Clock, Calendar } from 'lucide-react';
 
 interface Booking {
   _id: string;
@@ -11,7 +11,7 @@ interface Booking {
   numberOfSeats: number;
   bookingDate: string;
   status: string;
-  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
   paymentAmount: number;
   eventId: {
     _id: string;

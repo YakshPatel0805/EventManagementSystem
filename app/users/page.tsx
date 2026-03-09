@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, Calendar, MapPinned } from 'lucide-react'
+import { Color } from 'ogl';
 
 
 interface Booking {
@@ -13,7 +14,7 @@ interface Booking {
   numberOfSeats: number;
   bookingDate: string;
   status: string;
-  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
   paymentAmount: number;
   transactionId?: string;
   eventId: {
@@ -122,117 +123,127 @@ const UserBookingsPage = () => {
               }
 
               return (
-              <div key={booking._id} className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition">
-                <div className="grid md:grid-cols-3 gap-6 p-6">
-                  <div className="md:col-span-1">
-                    {booking.eventId.image ? (
-                      <Image
-                        src={booking.eventId.image}
-                        alt={booking.eventId.title}
-                        width={300}
-                        height={200}
-                        loading="lazy"
-                        className="rounded-lg w-full h-48 object-cover"
-                      />
-                    ) : (
-                      <div className="rounded-lg w-full h-48 bg-gray-300 flex items-center justify-center">
-                        <p className="text-gray-600">No image available</p>
-                      </div>
-                    )}
-                  </div>
+                <div
+                  key={booking._id}
+                  className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition"
+                >
+                  <div className="grid md:grid-cols-2 gap-6 p-6">
 
-                  <div className="md:col-span-2 space-y-4">
+                    {/* LEFT COLUMN */}
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2">{booking.eventId.title}</h3>
-                      <div className="flex gap-2 flex-wrap">
-                        <div className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                      {booking.eventId.image ? (
+                        <Image
+                          src={booking.eventId.image}
+                          alt={booking.eventId.title}
+                          width={300}
+                          height={200}
+                          loading="lazy"
+                          className="rounded-lg w-full h-58 object-cover"
+                        />
+                      ) : (
+                        <div className="rounded-lg w-full h-48 bg-gray-300 flex items-center justify-center">
+                          <p className="text-gray-600">No image available</p>
+                        </div>
+                      )}
+
+                      <h3 className="text-2xl font-bold text-gray-900 mt-6 mb-3">
+                        {booking.eventId.title}
+                      </h3>
+
+                      {/* Status */}
+                      <div className="flex gap-2 flex-wrap mb-4">
+                        <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
                           ✓ {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                         </div>
-                        {booking.paymentStatus === 'completed' && (
-                          <div className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+
+                        {booking.paymentStatus === "completed" && (
+                          <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
                             💳 Payment Successful
                           </div>
                         )}
-                        {booking.paymentStatus === 'pending' && (
-                          <div className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
-                            ⏳ Payment Pending
-                          </div>
-                        )}
-                        {booking.paymentStatus === 'failed' && (
-                          <div className="inline-block px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
-                            ❌ Payment Failed
-                          </div>
-                        )}
                       </div>
-                    </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                      {/* Event Info */}
                       <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          < Calendar/>
+                        <div className="flex items-center text-black gap-2">
+                          <Calendar />
                           <p className="text-gray-700">
-                            {new Date(booking.eventId.date).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
+                            {new Date(booking.eventId.date).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
                             })}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center text-black gap-2">
                           <Clock />
                           <p className="text-gray-700">{booking.eventId.time}</p>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center text-black gap-2">
                           <MapPinned />
                           <p className="text-gray-700">{booking.eventId.venue}</p>
                         </div>
                       </div>
-
-                      <div className="space-y-3">
-                        <div className="bg-blue-50 rounded-lg p-3">
-                          <p className="text-sm text-gray-600">Booked By</p>
-                          <p className="font-semibold text-gray-900">{booking.userName}</p>
-                        </div>
-
-                        <div className="bg-purple-50 rounded-lg p-3">
-                          <p className="text-sm text-gray-600">Number of Seats</p>
-                          <p className="font-semibold text-gray-900">{booking.numberOfSeats}</p>
-                        </div>
-
-                        <div className="bg-green-50 rounded-lg p-3">
-                          <p className="text-sm text-gray-600">Total Amount</p>
-                          <p className="font-semibold text-gray-900">₹{booking.paymentAmount.toFixed(2)}</p>
-                        </div>
-
-                        {booking.transactionId && (
-                          <div className="bg-indigo-50 rounded-lg p-3">
-                            <p className="text-sm text-gray-600">Transaction ID</p>
-                            <p className="font-semibold text-gray-900 text-xs">{booking.transactionId}</p>
-                          </div>
-                        )}
-
-                        <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-sm text-gray-600">Booked On</p>
-                          <p className="font-semibold text-gray-900">
-                            {new Date(booking.bookingDate).toLocaleDateString('en-US')}
-                          </p>
-                        </div>
-                      </div>
                     </div>
 
-                    <div className="pt-2">
-                      <Link
-                        href={`/events/${booking.eventId._id}`}
-                        className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-                      >
-                        View Event Details
-                      </Link>
+                    {/* RIGHT COLUMN */}
+                    <div className="space-y-3">
+                      <div className="bg-blue-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-600">Booked By</p>
+                        <p className="font-semibold text-gray-900">{booking.userName}</p>
+                      </div>
+
+                      <div className="bg-purple-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-600">Number of Seats</p>
+                        <p className="font-semibold text-gray-900">
+                          {booking.numberOfSeats}
+                        </p>
+                      </div>
+
+                      <div className="bg-green-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-600">Total Amount</p>
+                        <p className="font-semibold text-gray-900">
+                          ₹{booking.paymentAmount.toFixed(2)}
+                        </p>
+                      </div>
+
+                      {booking.transactionId && (
+                        <div className="bg-indigo-50 rounded-lg p-3">
+                          <p className="text-sm text-gray-600">Transaction ID</p>
+                          <p className="font-semibold text-gray-900 text-xs">
+                            {booking.transactionId}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-600">Booked On</p>
+                        <p className="font-semibold text-gray-900">
+                          {new Date(booking.bookingDate).toLocaleDateString("en-US")}
+                        </p>
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="pt-4 flex justify-center gap-4">
+                        <Link
+                          href={`/events/${booking.eventId._id}`}
+                          className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                        >
+                          View Event Details
+                        </Link>
+
+                        <Link
+                          href="#"
+                          className="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+                        >
+                          Cancel Booking
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               );
             })}
           </div>

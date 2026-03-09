@@ -10,7 +10,7 @@ export interface IBooking {
   numberOfSeats: number;
   bookingDate: Date;
   status: 'pending' | 'confirmed' | 'cancelled';
-  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
   paymentAmount: number;
   paymentMethod?: string;
   transactionId?: string;
@@ -29,7 +29,7 @@ const BookingSchema = new Schema<IBooking>(
     numberOfSeats: { type: Number, required: true, default: 1 },
     bookingDate: { type: Date, default: Date.now },
     status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
-    paymentStatus: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
+    paymentStatus: { type: String, enum: ['pending', 'completed', 'failed', 'refunded'], default: 'pending' },
     paymentAmount: { type: Number, required: true },
     paymentMethod: { type: String },
     transactionId: { type: String }

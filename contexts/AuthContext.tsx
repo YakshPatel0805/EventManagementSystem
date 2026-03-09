@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setUser, logoutSuccess } from '@/store/slices/authSlice';
 
 interface User {
   id: string;
@@ -20,44 +22,59 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const dispatch = useAppDispatch();
+  const reduxUser = useAppSelector((state) => state.auth.user);
+  const reduxIsAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    // Check if user is logged in on mount
+    // Sync localStorage with Redux on mount (fallback for migration)
     const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
+    
+    if (userData && !reduxUser) {
+      // Migrate from localStorage to Redux
+      const parsedUser = JSON.parse(userData);
+      dispatch(setUser(parsedUser));
+    } else if (!userData && reduxUser) {
+      // Sync Redux to localStorage
+      localStorage.setItem('user', JSON.stringify(reduxUser));
     }
+    
     setLoading(false);
 
     // Redirect to landing page if not logged in and not on auth pages
-    if (!userData && pathname !== '/signup' && pathname !== '/login' && pathname !== '/') {
+    const publicPaths = ['/signup', '/login', '/', '/users', '/home'];
+    const isPublicPath = publicPaths.includes(pathname) || pathname.startsWith('/events');
+    
+    if (!reduxIsAuthenticated && !isPublicPath) {
       router.replace('/');
     }
-  }, [pathname, router]);
+  }, [pathname, router, reduxUser, reduxIsAuthenticated, dispatch]);
 
   const login = (userData: User) => {
+    // Update both localStorage and Redux
     localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+    dispatch(setUser(userData));
     
-    // Navigate based on role - router.push() preserves Redux state
+    // Navigate based on role
     if (userData.role === 'admin') {
       router.push('/admin/home');
     } else {
       router.push('/home');
     }
   };
- const logout = () => {
+
+  const logout = () => {
+    // Clear both localStorage and Redux
     localStorage.removeItem('user');
-    setUser(null);
+    dispatch(logoutSuccess());
     router.push('/');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user: reduxUser, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

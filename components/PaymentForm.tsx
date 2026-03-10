@@ -21,10 +21,33 @@ const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Pro
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const validateCard = (cardNumber: string): boolean => {
+    let sum = 0;
+    let shouldDouble = false;
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+      let digit = parseInt(cardNumber[i]);
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0 ? true : false;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    // Validate card number using Luhn algorithm
+    const cleanCardNumber = formData.cardNumber.replace(/\s+/g, '');
+    if (!validateCard(cleanCardNumber)) {
+      setError('Invalid card number. Please check and try again.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api/payments/process', {
@@ -117,7 +140,6 @@ const PaymentForm = ({ bookingId, amount, onSuccess, onCancel, onPayLater }: Pro
               value={formData.cardNumber}
               onChange={(e) => setFormData({ ...formData, cardNumber: formatCardNumber(e.target.value) })}
             />
-            <p className="form-helper-text">Demo: Even last digit = Success, Odd = Fail</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

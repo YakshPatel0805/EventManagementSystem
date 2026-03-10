@@ -22,7 +22,7 @@ const AdminRedirect = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <p className="text-xl text-gray-600">Redirecting...</p>
+      <p className="text-xl text-white-600">Redirecting...</p>
     </div>
   );
 };

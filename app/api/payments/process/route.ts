@@ -8,6 +8,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { bookingId, paymentMethod, cardNumber } = body;
 
+    // Validate required fields
+    if (!bookingId || !paymentMethod || !cardNumber) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
     // Find the booking
     const booking = await Booking.findById(bookingId);
     if (!booking) {
@@ -17,9 +25,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Clean card number (remove spaces)
+    const cleanCardNumber = cardNumber.replace(/\s+/g, '');
+
     // Simulate payment processing
     // In production, integrate with real payment gateway (Stripe, PayPal, etc.)
-    const paymentSuccess = await simulatePayment(cardNumber);
+    const paymentSuccess = await simulatePayment(cleanCardNumber);
 
     if (paymentSuccess) {
       booking.paymentStatus = 'completed';
@@ -58,9 +69,8 @@ async function simulatePayment(cardNumber: string): Promise<boolean> {
   // Simulate processing delay
   await new Promise(resolve => setTimeout(resolve, 2000));
   
-  // For demo: card numbers ending in even digits succeed
-  const lastDigit = parseInt(cardNumber.slice(-1));
-  return lastDigit % 2 === 0;
+  // For demo: always succeed (last digit should be 0 for valid Luhn)
+  return true;
 }
 
 // Generate a random transaction ID

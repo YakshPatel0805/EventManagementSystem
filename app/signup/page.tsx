@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { Eye, EyeOff } from 'lucide-react';
 
 const SignupPage = () => {
   const { login } = useAuth();
@@ -12,6 +13,8 @@ const SignupPage = () => {
     password: '',
     confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -113,34 +116,52 @@ const SignupPage = () => {
             <label htmlFor="password" className="form-label form-label-required">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              required
-              minLength={6}
-              placeholder="Create a strong password (min 6 characters)"
-              className="form-input"
-              style={{ color: '#000000', backgroundColor: '#ffffff' }}
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                required
+                minLength={6}
+                placeholder="Create a strong password (min 6 characters)"
+                className="form-input pr-10"
+                style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label form-label-required">
               Confirm Password
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              required
-              minLength={6}
-              placeholder="Re-enter your password"
-              className="form-input"
-              style={{ color: '#000000', backgroundColor: '#ffffff' }}
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                required
+                minLength={6}
+                placeholder="Re-enter your password"
+                className="form-input pr-10"
+                style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+              >
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           <button type="submit" disabled={loading} className="form-button">

@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, Calendar, MapPinned } from 'lucide-react'
 import CancelBookingButton from '@/components/CancelBookingButton';
+import { useAppSelector } from '@/store/hooks';
 
 interface Booking {
   _id: string;
@@ -13,7 +15,7 @@ interface Booking {
   numberOfSeats: number;
   bookingDate: string;
   status: string;
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refund-pending' | 'refunded';
   paymentAmount: number;
   refundAmount: number;
   transactionId?: string;
@@ -29,20 +31,20 @@ interface Booking {
 }
 
 const UserBookingsPage = () => {
-  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searched, setSearched] = useState(false);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const fetchBookings = async () => {
+    if (!user?.email) return;
+    
     setLoading(true);
     setError('');
-    setSearched(true);
 
     try {
-      const response = await fetch(`/api/bookings/user?email=${encodeURIComponent(email)}`);
+      const response = await fetch(`/api/bookings/user?email=${encodeURIComponent(user.email)}`);
       const data = await response.json();
 
       if (!data.success) {
@@ -61,41 +63,34 @@ const UserBookingsPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    fetchBookings();
+  }, [isAuthenticated, user?.email]);
+
   const handleCancelSuccess = () => {
     // Refresh bookings after cancellation
-    if (email) {
-      handleSearch({ preventDefault: () => {} } as React.FormEvent);
-    }
+    fetchBookings();
   };
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center h-11">My Bookings</h1>
-
-      <div className="max-w-xl mx-auto mb-12">
-        <form onSubmit={handleSearch} className="form-container space-y-4">
-          <div className="form-group">
-            <label htmlFor="email" className="form-label form-label-required">
-              Enter Your Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              required
-              placeholder="your.email@example.com"
-              className="form-input"
-              style={{ color: '#000000', backgroundColor: '#ffffff' }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <p className="form-helper-text">Enter the email you used to book events</p>
-          </div>
-
-          <button type="submit" disabled={loading} className="form-button">
-            {loading ? '🔍 Searching...' : '🔍 View My Bookings'}
-          </button>
-        </form>
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 pt-20">
+        <h1 className="text-4xl font-bold mb-8 text-center h-11">My Bookings</h1>
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">Loading your bookings...</p>
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8 pt-20">
+      <h1 className="text-4xl font-bold mb-8 text-center h-11">My Bookings</h1>
 
       {error && (
         <div className="form-error max-w-xl mx-auto">
@@ -103,10 +98,16 @@ const UserBookingsPage = () => {
         </div>
       )}
 
-      {searched && !loading && bookings.length === 0 && !error && (
+      {!loading && bookings.length === 0 && !error && (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No bookings found for this email address.</p>
-          <p className="text-gray-400 mt-2">Make sure you entered the correct email.</p>
+          <p className="text-gray-500 text-lg">No bookings found.</p>
+          <p className="text-gray-400 mt-2">You haven't made any bookings yet.</p>
+          <Link 
+            href="/home" 
+            className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Browse Events
+          </Link>
         </div>
       )}
 
@@ -180,6 +181,12 @@ const UserBookingsPage = () => {
                         {booking.paymentStatus === "completed" && (
                           <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
                             💳 Payment Successful
+                          </div>
+                        )}
+
+                        {booking.paymentStatus === "refund-pending" && (
+                          <div className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-semibold">
+                            💳 Refund Pending
                           </div>
                         )}
 

@@ -37,14 +37,16 @@ export async function GET(request: NextRequest) {
     // Get the cursor for next page
     const nextCursor = hasMore ? data[data.length - 1]._id : null;
 
-    return NextResponse.json({ 
+    const response = { 
       success: true, 
       data,
       pagination: {
         nextCursor,
         hasMore
       }
-    });
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch bookings' },

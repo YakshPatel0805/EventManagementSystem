@@ -11,7 +11,7 @@ interface Booking {
   numberOfSeats: number;
   bookingDate: string;
   status: string;
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded' | 'refund-pending';
   paymentAmount: number;
   eventId: {
     _id: string;

@@ -6,7 +6,7 @@ export interface Booking {
   eventId: string | { _id: string; title: string; date: string; time: string; venue: string };
   numberOfSeats: number;
   paymentAmount: number;
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded' | 'refund-pending';
   status: 'pending' | 'confirmed' | 'cancelled';
   createdAt?: string;
   refundAmount?: number;

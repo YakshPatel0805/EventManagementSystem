@@ -78,7 +78,7 @@ const AdminHomePage = () => {
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl text-gray-600">Loading...</p>
+        <p className="text-xl text-white-600">Loading...</p>
       </div>
     );
   }
@@ -86,24 +86,32 @@ const AdminHomePage = () => {
   if (!user || user.role !== 'admin') {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl text-gray-600">Unauthorized access</p>
+        <p className="text-xl text-white-600">Unauthorized access</p>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto w-full px-4 py-8">
+    <div className="mx-auto w-full px-4 py-8 pt-20">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-4xl font-bold text-white-900 mb-2">Admin Dashboard</h1>
           <p className="text-white-600">Manage all events and bookings</p>
         </div>
-        <Link
-          href="/admin/create"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg"
-        >
-          + Create New Event
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            href="/admin/bookings"
+            className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition shadow-lg"
+          >
+            📋 Manage Bookings
+          </Link>
+          <Link
+            href="/admin/create"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg"
+          >
+            + Create New Event
+          </Link>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">

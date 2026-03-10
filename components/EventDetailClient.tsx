@@ -14,7 +14,7 @@ interface Booking {
   numberOfSeats: number;
   bookingDate: string;
   status: string;
-  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded' | 'refund-pending';
   paymentAmount: number;
   eventId: {
     _id: string;
@@ -57,7 +57,7 @@ const EventDetailClient = ({ event, pendingBookings, pendingSeats, availableSeat
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-10">
+    <section className="w-full max-w-7xl mx-auto px-4 py-10 pt-20">
       <div className="w-full grid lg:grid-cols-2 gap-10 items-start">
         <div className="w-full space-y-4">
           <div className="relative overflow-hidden rounded-xl shadow-lg">

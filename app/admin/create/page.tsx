@@ -105,7 +105,7 @@ const AdminPage = () => {
 
   if (success) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 pt-20">
         <div className="form-success">
           <h3 className="form-success-title">✓ Event Created!</h3>
           <p className="form-success-text">Redirecting to dashboard...</p>
@@ -115,7 +115,7 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8 pt-20">
       <h1 className="text-4xl font-bold mb-8 text-center text-white-900">Create New Event</h1>
 
       {error && (

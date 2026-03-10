@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { Eye, EyeOff } from 'lucide-react';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -10,6 +11,7 @@ const LoginPage = () => {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -19,6 +21,9 @@ const LoginPage = () => {
     newPassword: '',
     confirmPassword: ''
   });
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [changePasswordLoading, setChangePasswordLoading] = useState(false);
   const [changePasswordMessage, setChangePasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -131,16 +136,25 @@ const LoginPage = () => {
                 <label htmlFor="password" className="form-label form-label-required">
                   Password
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  required
-                  placeholder="Enter your password"
-                  className="form-input"
-                  style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    required
+                    placeholder="Enter your password"
+                    className="form-input pr-10"
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
               <button type="submit" disabled={loading} className="form-button">
@@ -196,48 +210,75 @@ const LoginPage = () => {
                 <label htmlFor="old-password" className="form-label form-label-required">
                   Old Password
                 </label>
-                <input
-                  type="password"
-                  id="old-password"
-                  required
-                  placeholder="Enter your current password"
-                  className="form-input"
-                  style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                  value={changePasswordData.oldPassword}
-                  onChange={(e) => setChangePasswordData({ ...changePasswordData, oldPassword: e.target.value })}
-                />
+                <div className="relative">
+                  <input
+                    type={showOldPassword ? 'text' : 'password'}
+                    id="old-password"
+                    required
+                    placeholder="Enter your current password"
+                    className="form-input pr-10"
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    value={changePasswordData.oldPassword}
+                    onChange={(e) => setChangePasswordData({ ...changePasswordData, oldPassword: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowOldPassword(!showOldPassword)}
+                    className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+                  >
+                    {showOldPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="new-password" className="form-label form-label-required">
                   New Password
                 </label>
-                <input
-                  type="password"
-                  id="new-password"
-                  required
-                  placeholder="Enter new password (min 8 characters)"
-                  className="form-input"
-                  style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                  value={changePasswordData.newPassword}
-                  onChange={(e) => setChangePasswordData({ ...changePasswordData, newPassword: e.target.value })}
-                />
+                <div className="relative">
+                  <input
+                    type={showNewPassword ? 'text' : 'password'}
+                    id="new-password"
+                    required
+                    placeholder="Enter new password (min 8 characters)"
+                    className="form-input pr-10"
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    value={changePasswordData.newPassword}
+                    onChange={(e) => setChangePasswordData({ ...changePasswordData, newPassword: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+                  >
+                    {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="confirm-password" className="form-label form-label-required">
                   Confirm New Password
                 </label>
-                <input
-                  type="password"
-                  id="confirm-password"
-                  required
-                  placeholder="Confirm new password"
-                  className="form-input"
-                  style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                  value={changePasswordData.confirmPassword}
-                  onChange={(e) => setChangePasswordData({ ...changePasswordData, confirmPassword: e.target.value })}
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    id="confirm-password"
+                    required
+                    placeholder="Confirm new password"
+                    className="form-input pr-10"
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    value={changePasswordData.confirmPassword}
+                    onChange={(e) => setChangePasswordData({ ...changePasswordData, confirmPassword: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-gray-600 hover:text-gray-900"
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
               <button type="submit" disabled={changePasswordLoading} className="form-button">

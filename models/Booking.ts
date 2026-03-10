@@ -10,13 +10,14 @@ export interface IBooking {
   numberOfSeats: number;
   bookingDate: Date;
   status: 'pending' | 'confirmed' | 'cancelled';
-  paymentStatus: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'completed' | 'failed' | 'refund-pending' | 'refunded';
   paymentAmount: number;
   paymentMethod?: string;
   transactionId?: string;
   refundAmount?: number;
   cancellationReason?: string;
   cancelledAt?: Date;
+  refundApprovedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -32,13 +33,14 @@ const BookingSchema = new Schema<IBooking>(
     numberOfSeats: { type: Number, required: true, default: 1 },
     bookingDate: { type: Date, default: Date.now },
     status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
-    paymentStatus: { type: String, enum: ['pending', 'completed', 'failed', 'refunded'], default: 'pending' },
+    paymentStatus: { type: String, enum: ['pending', 'completed', 'failed', 'refund-pending', 'refunded'], default: 'pending' },
     paymentAmount: { type: Number, required: true },
     paymentMethod: { type: String },
     transactionId: { type: String },
     refundAmount: { type: Number, default: 0 },
     cancellationReason: { type: String },
-    cancelledAt: { type: Date }
+    cancelledAt: { type: Date },
+    refundApprovedAt: { type: Date }
   },
   { timestamps: true }
 );

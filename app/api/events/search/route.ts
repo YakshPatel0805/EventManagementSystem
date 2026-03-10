@@ -17,8 +17,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Search in title and description using regex
-    const searchRegex = new RegExp(query, 'i'); // Case-insensitive search
+    const searchRegex = new RegExp(query, 'i');
 
     const events = await Event.find({
       $or: [
